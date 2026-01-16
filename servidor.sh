@@ -104,7 +104,7 @@ FILE_NAME_HASH=`echo $DATA | cut -d " " -f 3`
 
 FILE_NAME_HASH_TEST=`echo "$FILE_NAME" | md5sum | cut -d " " -f 1`
 
-if [ "$FILE_NAME_HASH" != "$FILE_NAME_TEST" ]
+if [ "$FILE_NAME_HASH" != "$FILE_NAME_HASH_TEST" ]
 then 
 	echo "Error 3h: Hash del nombre de archivo erroneo"
 	exit 3
