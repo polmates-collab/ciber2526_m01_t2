@@ -94,6 +94,23 @@ fi
 
 FILE_NAME=`echo $DATA | cut -d " " -f 2`
 
+if [ "$FILE_NAME" == "" ]
+then 
+	echo "Error 3: Nombre de archivo vacio"
+	exit 3
+fi
+
+FILE_NAME_HASH=`echo $DATA | cut -d " " -f 3`
+
+FILE_NAME_HASH_TEST=`echo "$FILE_NAME" | md5sum | cut -d " " -f 1`
+
+if [ "$FILE_NAME_HASH" != "$FILE_NAME_TEST" ]
+then 
+	echo "Error 3h: Hash del nombre de archivo erroneo"
+	exit 3
+fi
+
+
 echo "File Name: $FILE_NAME"
 
 echo "8.2 RESPONSE FILE_NAME_OK"
