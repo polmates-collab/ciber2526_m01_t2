@@ -2,7 +2,7 @@
 
 AUDIO_FILE="audio.wav"
 
-VERSION_CURRENT="0.8"
+VERSION_CURRENT="0.9"
 
 PORT="9999"
 IP_SERVER="localhost"
@@ -64,7 +64,7 @@ echo "12. LISTEN"
 
 RESPONSE=`nc -l -p $PORT`
 
-echo "15. TEST AND END"
+echo "16. TEST AND END"
 
 if [ "$RESPONSE" != "FILE_DATA_OK" ]
 then
@@ -72,6 +72,8 @@ then
 
 	exit 3
 fi
+
+echo "17. SEND. FILE_DATA_HASH"
 
 echo "Fin de comuniación"
 
