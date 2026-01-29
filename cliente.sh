@@ -1,16 +1,28 @@
 #!/bin/bash
 
+if [ $# -lt 1 ]
+then
+	echo "Error 255: Número insuficiente de parámetros."
+	echo "Sintaxis:"
+	echo -e "\t$0 SERVER_ADDRESS"
+	echo "Ejemplos de uso:"
+	echo -e "\t$0 localhost" 
+	echo -e "\t$0 192.168.225.33"
+	exit 255
+fi
+
 AUDIO_FILE="audio.wav"
 
 VERSION_CURRENT="0.8"
 
 PORT="9999"
-IP_SERVER="localhost"
+IP_SERVER="$1"
 
 clear
 
 
 echo "Cliente del protocolo RECTP v$VERSION_CURRENT"
+echo "Conectando a $IP_SERVER"
 
 echo "1. SEND. Enviamos la cabecera al servidor"
 
@@ -24,6 +36,14 @@ IP_LOCAL_HASH=`echo "$IP_LOCAL" | md5sum | cut -d " " -f 1`
 
 sleep 1
 echo "RECTP $VERSION_CURRENT $IP_LOCAL $IP_LOCAL_HASH" | nc $IP_SERVER -q 0 $PORT
+
+if [ $? != 0 ]
+then
+	echo "Error 127: No ha sido posible conectar a $IP_SERVER"
+	exit 127
+fi
+
+echo "2. LISTEN. Header Response"
 
 RESPONSE=`nc -l -p $PORT`
 
@@ -84,18 +104,11 @@ echo "18. LISTEN"
 
 RESPONSE=`nc -l -p $PORT`
 
-
-
-
-
-
-
-
-
-
-
-
-
+if [ "$RESPONSE" != "FILE_DATA_HASH_OK" ]
+then
+	echo "Error 4: Archivo enviado incorrectamente (error MD5)"
+	exit 128
+fi
 
 echo "Fin de comuniación"
 

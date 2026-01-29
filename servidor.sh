@@ -117,9 +117,6 @@ echo "8.2 RESPONSE FILE_NAME_OK"
 
 
 
-
-
-
 sleep 1
 echo "FILE_NAME_OK" | nc $IP_CLIENT -q 0 $PORT
 
@@ -138,6 +135,37 @@ echo "15. LISTEN. FILE_DATA_HASH"
 
 DATA=`nc -l -p $PORT`
 
+HASH_PREFIX=`echo $DATA | cut -d " " -f 1`
+
+if [ "$HASH_PREFIX" != "FILE_DATA_HASH" ]
+then
+
+	echo "Error 4: Prefijo de hash inválido"
+
+	sleep 1
+	echo "FILE_DATA_HASH_KO" | nc $IP_CLIENT -q 0 $PORT
+
+	exit 4
+fi
+
+DATA_HASH=`echo $DATA | cut -d " " -f 2`
+
+DATA_HASH_SERVER=`md5sum $SERVER_DIR/$FILE_NAME | cut -d " " -f 1`
+
+if [ "$DATA_HASH" != "$DATA_HASH_SERVER" ]
+then
+	echo "Error 4d: Datos o MD5 incorrectos"
+
+	sleep 1
+	echo "FILE_DATA_HASH_KO" | nc $IP_CLIENT -q 0 $PORT
+
+	exit 4
+fi
+
+echo "19. SEND: OK HASH"
+
+sleep 1
+echo "FILE_DATA_HASH_OK" | nc $IP_CLIENT -q 0 $PORT
 
 
 echo "Fin de comunicación"
