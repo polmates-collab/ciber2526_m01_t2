@@ -9,7 +9,7 @@ then
 	echo -e "\t$0 SERVER_ADDRESS"
 	echo "Ejemplos de uso:"
 	echo -e "\t$0 localhost" 
-	echo -e "\t$0 192.168.225.33"
+	echo -e "\t$0 localhost"
 	exit 255
 fi
 
