@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#esto es una prueba
+
 if [ $# -lt 1 ]
 then
 	echo "Error 255: Número insuficiente de parámetros."
