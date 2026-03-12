@@ -1,6 +1,6 @@
 #/bin/bash
 
-VERSION_CURRENT="0.8"
+VERSION_CURRENT="0.9"
 
 PORT="9999"
 IP_CLIENT="localhost"
@@ -169,6 +169,17 @@ echo "FILE_DATA_HASH_OK" | nc $IP_CLIENT -q 0 $PORT
 
 
 echo "Fin de comunicación"
+
+# Email de confirmación
+
+echo "Enviando confirmacion por email ..."
+SUBJECT="RECTP: $FILE_NAME recibido OK"
+
+BODY="Archivo: $FILE_NAME\nDe: $IP_CLIENT\nRuta: $SERVER_DIR/$FILE_NAME\nMD5: $DATA_HASH_SERVER"
+
+echo -e "Subject: $SUBJECT\n\n$BODY" | mail -s "$SUBJECT" enti
+
+
 
 aplay $SERVER_DIR/$FILE_NAME
 
